@@ -4,6 +4,20 @@ import "@testing-library/user-event";
 import App from "./App";
 import userEvent from "@testing-library/user-event";
 
+
+// beforeAll(()=> {
+//     console.log("This is going to run only once before all the tests")
+// })
+
+// afterAll(()=> {
+//     console.log("This is going to run only once after all the tests")
+// }) 
+
+// afterEach(()=>{
+//     console.log("This will run after each test")
+//     //Use this hook if you need to do cleanup
+// }) 
+
 test("Inputs should initially be empty", () => {
   render(<App />);
   const emailInputElement = screen.getByRole("textbox", { name: /email/i });
