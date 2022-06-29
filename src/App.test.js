@@ -42,74 +42,90 @@ test("Inputs should initially be empty", () => {
   expect(screen.getByLabelText(/confirm password/i).value).toBe("");
 });
 
-test("Should be able to type in email field", () => {
-  const { emailInputElement } = findAndTypeInto({
-    email: "sanjeev2856@gmail.com",
+describe("Should be able to type in input fields", () => {
+
+    //We can call beforeEach afterEach etc inside describe blocks to do someting for a particular set of tests
+  test("Should be able to type in email field", () => {
+    const { emailInputElement } = findAndTypeInto({
+      email: "sanjeev2856@gmail.com",
+    });
+    expect(emailInputElement.value).toBe("sanjeev2856@gmail.com");
   });
-  expect(emailInputElement.value).toBe("sanjeev2856@gmail.com");
-});
 
-test("Should be able to type in password field", () => {
-  const { passwordInputElement } = findAndTypeInto({ password: "12345" });
-  expect(passwordInputElement.value).toBe("12345");
-});
-
-test("Should be able to type in confirm password field", () => {
-  const { confirmPasswordElement } = findAndTypeInto({
-    confirmPassword: "12345",
+  test("Should be able to type in password field", () => {
+    const { passwordInputElement } = findAndTypeInto({ password: "12345" });
+    expect(passwordInputElement.value).toBe("12345");
   });
-  expect(confirmPasswordElement.value).toBe("12345");
+
+  test("Should be able to type in confirm password field", () => {
+    const { confirmPasswordElement } = findAndTypeInto({
+      confirmPassword: "12345",
+    });
+    expect(confirmPasswordElement.value).toBe("12345");
+  });
 });
 
-test("Should show an error message when user enters invalid email", () => {
-  expect(
-    screen.queryByText(/the entered email is invalid/i)
-  ).not.toBeInTheDocument();
+describe("Form error handling", () => {
+  test("Should show an error message when user enters invalid email", () => {
+    expect(
+      screen.queryByText(/the entered email is invalid/i)
+    ).not.toBeInTheDocument();
 
-  findAndTypeInto({ email: "hello.com" });
+    findAndTypeInto({ email: "hello.com" });
 
-  clickSubmitButton();
+    clickSubmitButton();
 
-  expect(screen.getByText(/the entered email is invalid/i)).toBeInTheDocument();
-});
+    expect(
+      screen.getByText(/the entered email is invalid/i)
+    ).toBeInTheDocument();
+  });
 
-test("Should show an error message if password entered is less than 6 characters", () => {
-  findAndTypeInto({ email: "sanjeev2856@gmail.com" });
+  test("Should show an error message if password entered is less than 6 characters", () => {
+    findAndTypeInto({ email: "sanjeev2856@gmail.com" });
 
-  expect(
-    screen.queryByText(/the password you entered is less than six characters/i)
-  ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        /the password you entered is less than six characters/i
+      )
+    ).not.toBeInTheDocument();
 
-  findAndTypeInto({ password: "123" });
+    findAndTypeInto({ password: "123" });
 
-  clickSubmitButton();
+    clickSubmitButton();
 
-  expect(
-    screen.getByText(/the password you entered is less than 6 characters/i)
-  ).toBeInTheDocument();
-});
+    expect(
+      screen.getByText(/the password you entered is less than 6 characters/i)
+    ).toBeInTheDocument();
+  });
 
-test("Check if error is shown when password does not match", () => {
-  expect(screen.queryByText(/password did not match/i)).not.toBeInTheDocument();
+  test("Check if error is shown when password does not match", () => {
+    expect(
+      screen.queryByText(/password did not match/i)
+    ).not.toBeInTheDocument();
 
-  findAndTypeInto({ email: "sanjeev2856@gmail.com" });
-  findAndTypeInto({ password: "8465738" });
-  findAndTypeInto({ confirmPassword: "8386238649" });
+    findAndTypeInto({ email: "sanjeev2856@gmail.com" });
+    findAndTypeInto({ password: "8465738" });
+    findAndTypeInto({ confirmPassword: "8386238649" });
 
-  clickSubmitButton();
-  expect(screen.getByText(/password did not match/i)).toBeInTheDocument();
-});
+    clickSubmitButton();
+    expect(screen.getByText(/password did not match/i)).toBeInTheDocument();
+  });
 
-test("Should show no error message if every input is correct", () => {
-  findAndTypeInto({ email: "sanjeev2856@gmail.com" });
-  findAndTypeInto({ password: "9582079478" });
-  findAndTypeInto({ confirmPassword: "9582079478" });
-  clickSubmitButton();
-  expect(
-    screen.queryByText(/the entered email is invalid/i)
-  ).not.toBeInTheDocument();
-  expect(
-    screen.queryByText(/the password you entered is less than six characters/i)
-  ).not.toBeInTheDocument();
-  expect(screen.queryByText(/password did not match/i)).not.toBeInTheDocument();
+  test("Should show no error message if every input is correct", () => {
+    findAndTypeInto({ email: "sanjeev2856@gmail.com" });
+    findAndTypeInto({ password: "9582079478" });
+    findAndTypeInto({ confirmPassword: "9582079478" });
+    clickSubmitButton();
+    expect(
+      screen.queryByText(/the entered email is invalid/i)
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        /the password you entered is less than six characters/i
+      )
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(/password did not match/i)
+    ).not.toBeInTheDocument();
+  });
 });
