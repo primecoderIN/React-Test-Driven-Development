@@ -2,7 +2,7 @@ import React from "react";
 import userEvent from "@testing-library/user-event";
 import { render, screen } from "@testing-library/react";
 import SignUpPage from "./SignUpPage";
-const onSubmit = jest.fn((e)=> e.preventDefault())
+const onSubmit = jest.fn((e) => e.preventDefault());
 beforeEach(() => render(<SignUpPage onSubmit={onSubmit} />));
 
 const findAndTypeInto = ({ email, password, confirmPassword }) => {
@@ -94,19 +94,25 @@ describe("Checking form functionality", () => {
     });
     expect(screen.getByRole("button", { name: /sign up/i })).toBeDisabled();
   });
-  test("If we are able to call handleSubmit function on sign up button click", ()=> {
+  test("If we are able to call handleSubmit function on sign up button click", () => {
     findAndTypeInto({
-        email: "sanjeev2856@gmail.com",
-        password: "12345678",
-        confirmPassword: "12345678",
-      });
-      screen.debug()
-      userEvent.click(screen.getByRole("button", { name: /sign up/i }))
-      expect(onSubmit).toHaveBeenCalledWith({
-        email: "sanjeev2856@gmail.com",
-        password: "12345678",
-        confirmPassword: "12345678",  
-      })
-    
-  })
+      email: "sanjeev2856@gmail.com",
+      password: "12345678",
+      confirmPassword: "12345678",
+    });
+    screen.debug();
+    userEvent.click(screen.getByRole("button", { name: /sign up/i }));
+    expect(onSubmit).toHaveBeenCalledWith({
+      email: "sanjeev2856@gmail.com",
+      password: "12345678",
+      confirmPassword: "12345678",
+    });
+    //Here checking if we are able to submit form using enter button press
+    userEvent.type(
+      screen.getByRole("button", { name: /sign up/i }),
+      "abc{enter}"
+    );
+
+    expect(onSubmit).toHaveBeenCalled();
+  });
 });
