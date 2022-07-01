@@ -14,7 +14,7 @@ const LoginForm = ({onSubmit}) => {
   }
   return (
     
-    <form onSubmit={handleSubmit} onSu >
+    <form onSubmit={handleSubmit}  >
       <label htmlFor="username">Username</label>
       <input
         onChange={(e) => setUsername(e.target.value)}

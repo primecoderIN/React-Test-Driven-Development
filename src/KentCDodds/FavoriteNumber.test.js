@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import {  render, screen } from "@testing-library/react";
 import FavoriteNumber from "./FavoriteNumber";
 
-beforeEach(() => render(<FavoriteNumber />));
+beforeEach(()=> render(<FavoriteNumber />));
 
 test("if input of type number is present in the component", () => {
   expect(screen.getByLabelText(/favorite number/i)).toBeInTheDocument();
