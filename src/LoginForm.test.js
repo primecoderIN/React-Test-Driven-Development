@@ -1,11 +1,9 @@
 import { render, screen } from "@testing-library/react";
-import "@testing-library/jest-dom";
-import "@testing-library/user-event";
-import App from "./App";
+import LoginForm from "./LoginForm";
 import userEvent from "@testing-library/user-event";
 
 beforeEach(() => {
-  render(<App />);
+  render(<LoginForm />);
 }); //Render app for each test
 
 //helper function to find element and type into it
