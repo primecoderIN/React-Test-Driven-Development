@@ -1,6 +1,21 @@
 import React from "react";
 import userEvent from "@testing-library/user-event";
 import { render, screen } from "@testing-library/react";
+import { rest } from "msw";
+import { setupServer } from "msw/node";
+
+const server = setupServer(
+  rest.get("localhost:3000/api", (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json({ message: "done" }));
+  })
+);
+
+beforeAll(() => {
+  server.listen();
+});
+beforeEach(() => server.resetHandlers());
+afterAll(() => server.close());
+
 import SignUpPage from "./SignUpPage";
 const onSubmit = jest.fn((e) => e.preventDefault());
 beforeEach(() => render(<SignUpPage onSubmit={onSubmit} />));
@@ -115,4 +130,16 @@ describe("Checking form functionality", () => {
 
     expect(onSubmit).toHaveBeenCalled();
   });
+
+  test("if server side validation messages are shwon",async ()=> {
+
+    //Here we are bypassing the server setup and creating a different response
+      server.use(
+        rest.post("localhost:3000/api", (req,res,ctx)=> {
+          return (
+            res(ctx.status(400),ctx.json({message: "failed"}))
+          )
+        })
+      )
+  })
 });

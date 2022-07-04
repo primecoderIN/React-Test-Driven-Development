@@ -1,5 +1,5 @@
 import { useState } from "react";
-const SignUpPage = ({onSubmit}) => {
+const SignUpPage = ({onSubmit=(body)=> console.log("Form submitted",body)}) => {
   const [user, setUser] = useState({
     email: "",
     password: "",
